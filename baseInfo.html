@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>基本信息</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/loading.css" rel="stylesheet"/>
+    <link href="css/collection.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="mui-content">
+	<input type="hidden" class="urlId" value="" />
+    <form class="mui-input-group" id="collectionForm">
+                 <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>还款编号:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="repayLoanNum" class="txr" name="repayLoanNum" value="" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>客户经理:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="custMngName" class="txr" name="custMngName" value="" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>客户编号:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="customerNum" class="txr" name="customerNum" value="" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>客户名称:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="customerName" class="txr" name="customerName" value="" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+		 </form>
+</div>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/loading.js"></script>
+<script src="js/mui.min.js"></script>
+<script type="text/javascript">
+(function($){
+	$.getUrlParam = function(name){
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r!=null) return unescape(r[2]); return null;
+	}
+})(jQuery);
+$(function(){
+	$('.urlId').val($.getUrlParam('id'));
+	var urlId = $('.urlId').val();
+	
+	var $repayLoanNum    = $('#repayLoanNum'),                     //还款编号
+		$custMngName    = $('#custMngName'),                      //客户经理
+		$customerNum     = $('#customerNum'),                    //客户编号
+		$customerName     = $('#customerName')                  //客户名称
+		
+	
+	$.ajax({
+        type: 'GET',
+        url: 'json/normalrepay.json',
+        cache:false,
+        dataType: 'json',
+        success: function (data){
+            if (data) {
+            	var newJson = data.data;
+                $.each(newJson, function (i,item) {
+                	if( urlId != '' && urlId == newJson.contractId ){
+                		$repayLoanNum.val(newJson.repayLoanNum);
+                		$custMngName.val(newJson.custMngName);
+                		$customerNum.val(newJson.customerNum);
+                		$customerName.val(newJson.customerName);
+                		
+                	}
+                });
+            }
+        },
+        error: function(){
+        	mui.alert('请求错误','消息提示', '确定', function(){
+               hideLoading();
+            });
+        }
+    });
+});
+</script>
+</body>
+</html>

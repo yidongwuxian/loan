@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>实还信息</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/mui-extend.css" rel="stylesheet"/>
+    <link href="css/mui.picker.min.css" rel="stylesheet" />
+    <link href="css/loading.css" rel="stylesheet"/>
+    <link href="css/collection.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="mui-content">
+	<input type="hidden" class="urlId" value="" />
+	<form class="mui-input-group" id="collectionForm">
+             <div class="mui-input-row mui-cell-select">
+                 <div class="mui-col-sm-6 mui-col-xs-12">
+                     <label>回收方式:</label>
+                 </div>
+		         <div class="mui-col-sm-6 mui-col-xs-12 mui-navigate-right">
+                     <select class="mui-select" id="collectionModes" name="collectionModes">
+                         <option value="1">正常还款</option>       
+                     </select>
+				 </div>
+		     </div>
+             <div class="mItem">
+                 <div class="mui-input-row">
+                     <div class="mui-col-sm-6 mui-col-xs-12">
+                         <label>实还时间:</label>
+                     </div>
+                     <div class="mui-col-sm-6 mui-col-xs-12">
+        				<button id='recoveryTimes' name="recoveryTimes" data-options='{"type":"date","beginYear":2015,"endYear":2016}' class="recoveryDtp" value=""></button>
+                    </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-col-sm-6 mui-col-xs-12">
+                         <label>预收金额:</label>
+                     </div>
+                     <div class="mui-col-sm-6 mui-col-xs-12">
+                         <input type="text" class="mui-input-clear" id="letterPerson" name="letterPerson" value="" placeholder="" />
+                     </div>
+    		     </div>
+			     <div class="mui-input-row">
+    		         <div class="mui-col-sm-6 mui-col-xs-12">
+                         <label>银行转账:</label>
+                     </div>
+                     <div class="mui-col-sm-6 mui-col-xs-12">
+                         <input type="text" class="mui-input-clear" id="emailId" name="emailId" value="" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-col-sm-6 mui-col-xs-12">
+                         <label>现金回款:</label>
+                     </div>
+                     <div class="mui-col-sm-6 mui-col-xs-12">
+                         <input type="text" class="mui-input-clear" id="emailAddr" name="emailAddr" value=""/>
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		     	 <div class="mui-col-sm-6 mui-col-xs-12" disabled="disable">
+    		         	<label>本次损溢:</label>
+    		         </div>
+    		         <div class="mui-col-sm-6 mui-col-xs-12">
+    		         	<input type="text" class="mui-input-clear" id="collectionName" name="collectionName" value="-113,666.67" placeholder="">
+    		         </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-col-sm-6 mui-col-xs-12" disabled="disable">
+    		         	<label>本次应还总额:</label>
+    		         </div>
+    		         <div class="mui-col-sm-6 mui-col-xs-12">
+    		         	<input type="text" class="loansInto" id="loansIntos" placeholder="请选择" name="loansIntos" value="113,666.67" disabled="disable">
+    		         </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-col-sm-6 mui-col-xs-12">
+    		         	<label>本次回收合计:</label>
+    		         </div>
+    		         <div class="mui-col-sm-6 mui-col-xs-12">
+    		         	<input type="text" class="loansInto" id="loansIntos" placeholder="请选择" name="loansIntos" value="0.00" disabled="disable">
+    				</div>
+    		     </div>
+    		     <div class="mui-content-padded">
+    		     	<div class="mui-content-padded">备注:</div>
+    		     	<div style="margin: 10px 15px;">
+    					<textarea id="lettersAddress" rows="5" placeholder="请输入还款备注"></textarea>
+    				</div>
+    		     </div>
+             <!--mItem end-->
+		     </div>
+		 </form>
+		 <div class="mui-button-row">
+		    <button type="button" class="mui-btn mui-btn-success" id="collectionSubmit">提交</button>
+		 </div>
+</div>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/loading.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/mui.picker.min.js"></script>
+<script type="text/javascript">
+(function($) {
+	$.init();
+	
+	//日期选择器
+    var dtps  = $('.recoveryDtp');
+	dtps.each(function(i, dtp) {
+		dtp.addEventListener('tap', function() {
+			var optionsJson = this.getAttribute('data-options') || '{}';
+			var options = JSON.parse(optionsJson);
+			var id = this.getAttribute('id');
+			var picker = new $.DtPicker(options);
+			picker.show(function(rs) {
+                dtp.innerText = rs.value;
+				dtp.value = rs.value;
+				picker.dispose();
+			});
+		}, false);
+	});
+	
+})(mui);
+
+$(function(){
+	
+		
+	
+});
+</script>
+</body>
+</html>

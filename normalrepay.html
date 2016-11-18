@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>正常还款</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/mui-extend.css" rel="stylesheet"/>
+    <link href="css/collection.css" rel="stylesheet"/>
+    <style>
+    body{ font-size:14px !important; }	
+	input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea{ font-size:14px !important; }	
+	.tfr{ float:right; text-align: right; font-size:12px; }
+	.cred{ color:red; }
+	</style>
+</head>
+<body>
+	<div class="searchbar">
+	    <div class="mui-search-bar" id="searchBar">
+	        <form class="mui-search-bar-form">
+	            <div class="mui-search-bar-box">
+	                <i class="mui-icon mui-icon-search"></i>
+	                <input type="search" class="mui-search-bar-input" id="searchInput" placeholder="输入关键字" required/>
+	                <a href="javascript:" class="mui-icon mui-icon-clear" id="searchClear"></a>
+	            </div>
+	            <label class="mui-search-bar-label" id="searchText">
+	                <i class="mui-icon mui-icon-search"></i>
+	                <span>搜索</span>
+	            </label>
+	        </form>
+	        <a href="javascript:;" class="mui-search-bar-cancel-btn" id="searchBtn">搜索</a>
+	    </div>
+	</div>
+	<div class="mui-content" style="position:relative;">
+		<div class="searchbar-result" id="searchResult"></div>
+		<div class="smarkBox">
+	    	<a class='mui-btn mui-btn-red mui-icon mui-icon-paperclip smarkLnk'></a>
+			<a class='mui-btn mui-btn-yellow mui-icon mui-icon-info smarkLnk'></a>
+			<a class='mui-btn mui-btn-grey mui-icon mui-icon-plus smarkLnk'></a>
+			<a class='mui-btn mui-btn-yellow mui-icon mui-icon-phone smarkLnk'></a>
+	    </div>
+	    <div class="loadingPic">
+            <i class="loading"></i>
+            <span class="loadmore__tips">正在加载</span>
+        </div>
+	    <div class="nodata loadmore_line">
+	    	<span class="loadmore__tips">没有更多数据了</span>
+	    </div>
+	</div>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	var $searchBar    = $('#searchBar'),
+	    $searchResult = $('#searchResult'),
+	    $searchText   = $('#searchText'),
+        $searchInput  = $('#searchInput'),
+        $searchClear  = $('#searchClear'),
+        $searchBtn    = $('#searchBtn'),
+        $smarkBox     = $('.smarkBox'),
+        $nodata       = $('.nodata'),
+    	winH          = $(window).height(), 
+    	page          = 1,
+    	gPageSize     = 4;
+	    
+	 	function hideSearchResult(){
+	 		$searchResult.hide();
+            $searchInput.val('');
+        }
+        function cancelSearch(){
+            hideSearchResult();
+            $searchBar.removeClass('mui-search-bar-focusing');
+            $searchText.show();
+        }
+
+        $searchText.on('click', function(){
+            $searchBar.addClass('mui-search-bar-focusing');
+            $searchInput.focus();
+        });
+        $searchInput.on('blur', function () {
+            if(!this.value.length) cancelSearch();
+        })
+
+        $searchClear.on('click', function(){
+        	$smarkBox.hide();
+        	$nodata.hide();
+        	$('#loadingPic').hide();
+            hideSearchResult();
+            $searchInput.focus();
+        });
+        
+        
+        function iScrollFn(){
+        	$(window).scroll(function(){  
+    			var pageH = $(document.body).height();  
+        		var scrollT = $(window).scrollTop(); 
+        		var diffY = (pageH - winH - scrollT) / winH;
+				if (diffY < 0.02) {
+					dataAjax(page);
+				}
+				if(scrollT > 50){
+					$('.searchbar').css('position','fixed');
+				}else{
+					$('.searchbar').css('position','relative');
+				}
+				//滚动，隐藏操作按钮层
+				$smarkBox.hide();
+        	});
+        }
+
+		iScrollFn();
+        
+        $searchBtn.on('click', function(){
+      		 $searchResult.show();
+    		 if( $searchInput.val() != "" ) {  
+                dataAjax(1);       
+             }  
+        });
+        	
+        function dataAjax(pagenumber){     	
+        	$.ajax({
+                type: 'GET',
+                url: 'json/findnormalrepay.json',
+                cache:false,
+                data: "keyword=" + $searchInput.val()+"&pagesize="+ gPageSize +"&pagenumber="+ pagenumber,
+                dataType: 'json',
+                success: function (json){
+                	$(".loadingPic").hide();
+                    if (json && (gPageSize * pagenumber) < json.iTotalRecords) {
+                    	$(".loadingPic").show();
+                    	var newJson = json.aaData;
+                        var	lists = "<ul class='mui-table-view'>";
+                        $.each(newJson, function (i,item) {
+                            var contractNum  = item.contractNum ? item.contractNum : '',
+                        	    customerName = item.customerName ? item.customerName : '',
+                        	     productName = item.productName ? item.productName : '',
+                        	     contractAmt = item.contractAmt ? item.contractAmt : '',
+                        	  payableDateStr = item.payableDateStr ? item.payableDateStr : '',
+                             payableTotalAmt = item.payableTotalAmt ? item.payableTotalAmt : '',
+                        repayedTotalAmount   = item.repayedTotalAmount ? item.repayedTotalAmount : '',
+                        	repayedPeriod    = item.repayedPeriod ? item.repayedPeriod : '',
+                        	totalPeriod      = item.totalPeriod ? item.totalPeriod : '',
+                        	contactWay       = item.contactWay ? item.contactWay : '',
+                        		promptMsg 	 = item.promptMsg ? item.promptMsg : '';
+                     
+                        	switch (promptMsg) {
+				                case '7':  promptMsg = '还款计划变更流程中'; break;
+				            }
+                        	lists += "<li class='mui-table-view-cell' data-id='"+item.contractId+"'>" +
+                            		"<div class='mui-slider-handle'>" +
+                            			"<p><span class='mui-color-blue'>合同编号:</span>" +
+                            			"<span class='tfr'>"+ contractNum +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>客户名称:</span>" +
+                            			"<span class='tfr'>"+ customerName +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>贷款产品:</span>" +
+                            			"<span class='tfr'>"+ productName +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>合同金额(元):</span>" +
+                            			"<span class='tfr'>"+ contractAmt +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>应还日期:</span>" +
+                            			"<span class='tfr'>"+ payableDateStr +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>本期应还本息(元):</span>" +
+                            			"<span class='tfr'>"+ payableTotalAmt +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>本期已还本息(元):</span>" +
+                            			"<span class='tfr'>"+ repayedTotalAmount +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>已还期次占比:</span>" +
+                            			"<span class='tfr'>"+ repayedPeriod + "/" + totalPeriod +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>客户联系方式:</span>" +
+                            			"<span class='tfr'>"+ contactWay +"</span></p>" +
+                            			"<p><span class='mui-color-blue'>提示信息:</span>" +
+                            			"<span class='tfr cred'>"+ promptMsg +"</span></p>" +
+                            		"</div>" +
+                             "</li>";
+                        });
+                        lists +="</ul>";
+                        $('#searchResult').html(lists);	
+                        page++;
+                        if($('#searchResult li').length != '0'){
+			    			popupSmartBox();
+			    		}
+                    }else{
+                    	$(".loadingPic").hide();
+                    	$('.nodata').show();
+                    	return false;
+                    }
+                },
+                beforeSend: function(){
+                	$(".loadingPic").show();
+                },
+                error: function(){
+                	$(".loadingPic").hide();
+                }
+            });
+        }
+        	
+       	function hideLoadingPic(){
+       		$(".loadingPic").hide();
+       		if($(".loadingPic").is(":visible") ==false){
+       			showNodata();
+       		}
+       		
+       	}
+       	
+       	function showNodata(){
+       		$('.nodata').show();
+       	}
+        	
+    	//点击其中li,弹出相应操作按钮
+		function popupSmartBox(){
+			$('#searchResult li').click(function(e){
+				$(this).css('backgroundColor','#ffffff').siblings().css('backgroundColor','#f8f8f8');
+				var dataId = $(this).attr("data-id");
+				$(this).parents().parents().find('.mui-icon-paperclip.smarkLnk').attr('href','baseInfo.html?id='+dataId+'');
+				$(this).parents().parents().find('.mui-icon-info.smarkLnk').attr('href','contractInfo.html?id='+dataId+'');				
+				$(this).parents().parents().find('.mui-icon-plus.smarkLnk').attr('href','actualRepayInfo.html?id='+dataId+'');
+				$(this).parents().parents().find('.mui-icon-phone.smarkLnk').attr('href','repaySituation.html?id='+dataId+'');
+				$(this).parents().parents().find('.smarkBox').show();
+			});
+		}
+    			 
+})
+</script>
+</body>
+</html>

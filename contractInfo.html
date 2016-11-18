@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>合同信息</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/loading.css" rel="stylesheet"/>
+    <link href="css/collection.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="mui-content">
+	<input type="hidden" class="urlId" value="" />
+    <form class="mui-input-group" id="collectionForm">
+                 <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>合同编号:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="contractNum" class="txr" name="contractNum" value="06011160241【借】-01" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>贷款产品:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="productName" class="txr" name="productName" value="邦小贷（批量）" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>放款日期:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="payloanDateStr" class="txr" name="payloanDateStr" value="2016-05-18" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>到期日期:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="expirationDateStr" class="txr" name="expirationDateStr" value="2016-05-18" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>合同期限:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="contractTerm" class="txr" name="contractTerm" value="2" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>还款方式:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <select class="mui-select rtl" id="collectionModes" name="collectionModes" disabled="disabled">
+	                          	<option value="1">按固定周期付息、到期还本</option>
+								<option value="2">期末本息一次付清</option>
+								<option value="3">按自定义还款计划还本付息</option>
+								<option value="4">等额本息还款</option>
+								<option value="5">等额本金还款</option>
+								<option value="6">等本等息还款</option>    
+	                     </select>
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>合同利率:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="expiredInst" class="txr" name="expiredInst" value="22.00" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>约定还款日:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="sumArrearsPenaltyInst" class="txr" name="sumArrearsPenaltyInst" value="18" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>合同金额:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="sumArrearsInst" class="txr" name="sumArrearsInst" value="6,000,000.00" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>合同余额:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="sumArrearsInst" class="txr" name="sumArrearsInst" value="6,000,000.00" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>累计回收额:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                         <input type="text" id="sumArrearsInst" class="txr" name="sumArrearsInst" value="0.00" placeholder="" readonly="readonly" />
+                     </div>
+    		     </div>
+    		     <div class="mui-input-row">
+    		         <div class="mui-cell-hd">
+                         <label>回收币种:</label>
+                     </div>
+                     <div class="mui-cell-bd">
+                     	 <select class="mui-select rtl" id="collectionModes" name="collectionModes" disabled="disabled">
+							<option value="840">美元</option>
+							<option value="901">新台湾元</option>
+							<option value="036">澳大利亚元</option>
+							<option value="104">缅元</option>
+							<option value="124">加拿大元</option>
+							<option value="250">法国法郎</option>
+							<option value="280">德国马克</option>
+							<option value="344">港币</option>
+							<option value="392">日元</option>
+							<option value="408">北朝鲜元</option>
+							<option value="410">韩圆</option>
+							<option value="446">澳门元</option>
+							<option value="702">新加坡元</option>
+							<option value="826">英镑</option>
+							<option value="978">欧元</option>
+							<option value="554">新西兰元</option>
+							<option value="156" selected="selected">人民币</option>
+						</select>
+                     </div>
+    		     </div>
+		 </form>
+</div>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/loading.js"></script>
+<script src="js/mui.min.js"></script>
+<script type="text/javascript">
+(function($){
+	$.getUrlParam = function(name){
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r!=null) return unescape(r[2]); return null;
+	}
+})(jQuery);
+$(function(){
+	$('.urlId').val($.getUrlParam('id'));
+	var urlId = $('.urlId').val();
+	
+	var $contractNum               = $('#contractNum'),                                        //合同编号
+		$productName             = $('#productName'),                                      //贷款产品
+		$payloanDateStr                   = $('#payloanDateStr'),                       //放款日期
+		$expirationDateStr   = $('#expirationDateStr'),                         //到期日期
+		$contractTerm        = $('#contractTerm'),                             //合同期限
+		$expiredPenaltyInst            = $('#expiredPenaltyInst'),                                //还款方式
+		$expiredInst                   = $('#expiredInst'),                                      //到期后产生的利息(元)
+		$sumArrearsPenaltyInst         = $('#sumArrearsPenaltyInst'),                           //拖欠罚息合计(元)
+		$sumArrearsInst                = $('#sumArrearsInst');                                 //拖欠利息合计(元)
+		
+	
+	$.ajax({
+        type: 'GET',
+        url: 'json/normalrepay.json',
+        cache:false,
+        dataType: 'json',
+        success: function (data){    	
+            if (data) {
+            	var newJson = data.data;
+                $.each(newJson, function (i,item) {
+                	if( urlId != '' && urlId == newJson.contractId){
+                		$contractNum.val(newJson.contractNum);
+                		$productName.val(newJson.productName);
+                		$payloanDateStr.val(newJson.payloanDateStr);
+                		$expirationDateStr.val(newJson.expirationDateStr);
+                		$contractTerm.val(newJson.contractTerm);
+                		
+                		$expiredPenaltyInst.val(newJson[i].expiredPenaltyInst);
+                		$expiredInst.val(newJson[i].expiredInst ); 
+                		$sumArrearsPenaltyInst.val(newJson[i].sumArrearsPenaltyInst);
+                		$sumArrearsInst.val(newJson[i].sumArrearsInst);              		
+                	}
+                       
+                });
+            }
+        },
+        error: function(){
+        	mui.alert('请求错误','消息提示', '确定', function(){
+               hideLoading();
+            });
+        }
+    });
+});
+</script>
+</body>
+</html>
